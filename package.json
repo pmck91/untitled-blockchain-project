@@ -11,5 +11,9 @@
   "license": "ISC",
   "devDependencies": {
     "jest": "^23.6.0"
+  },
+  "dependencies": {
+    "mem": ">=4.0.0",
+    "braces": ">=2.3.1"
   }
 }
