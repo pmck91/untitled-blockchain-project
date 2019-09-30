@@ -15,4 +15,6 @@ const GENESIS_DATA = {
     data: []
 };
 
-module.exports = { GENESIS_DATA, INITIAL_DIFFICULTY, MINE_RATE };
+const DEFAULT_PORT = 3000;
+
+module.exports = {GENESIS_DATA, INITIAL_DIFFICULTY, MINE_RATE, DEFAULT_PORT};

@@ -6,12 +6,18 @@
   "scripts": {
     "test": "jest --watchAll",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "install-redis-service": "redis-server --service-install",
+    "uninstall-redis-service": "redis-server --service-uninstall",
+    "start-redis": "redis-server --service-start",
+    "stop-redis": "redis-server --service-stop",
+    "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "cross-env": "^6.0.0",
     "jest": "^23.6.0",
     "nodemon": "^1.19.3"
   },
@@ -21,6 +27,7 @@
     "express": "^4.16.3",
     "hex-to-binary": "^1.0.1",
     "iconv-lite": "^0.5.0",
-    "mem": ">=4.0.0"
+    "mem": ">=4.0.0",
+    "redis": "^2.8.0"
   }
 }

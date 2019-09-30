@@ -1,10 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const {DEFAULT_PORT} = require('./config');
 const Blockchain = require('./blockchain');
+const PubSub = require('./pubsub');
 
 const app = express();
 const blockchain = new Blockchain();
+const pubsub = new PubSub({blockchain: blockchain});
 
 app.use(bodyParser.json());
 
@@ -18,12 +21,19 @@ app.post('/api/mine', ( req, res ) => {
     const {data} = req.body;
 
     blockchain.addBlock({data});
+    pubsub.broadcastChain();
 
     res.redirect('/api/blocks');
 });
 
+// --------------------------------------------------------
 
-const port = 3000;
-app.listen(port, () => {
-    console.log(`Application started listening on port: ${port}`);
+let PEER_PORT;
+if ( process.env.GENERATE_PEER_PORT === 'true' ) {
+    PEER_PORT = DEFAULT_PORT + Math.ceil(Math.random() * 1000);
+}
+const PORT = PEER_PORT || DEFAULT_PORT;
+
+app.listen(PORT, () => {
+    console.log(`Application started listening on port: ${PORT}`);
 });
