@@ -9,7 +9,7 @@ describe('Block', () => {
     const hash = 'bar-hash';
     const data = ['blockchain', 'data'];
     const nonce = 1;
-    const difficulty = 1;
+    const difficulty = 3;
     const block = new Block({
         timestamp: timestamp,
         lastHash: lastHash,
