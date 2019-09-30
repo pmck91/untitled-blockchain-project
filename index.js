@@ -54,5 +54,7 @@ const PORT = PEER_PORT || DEFAULT_PORT;
 app.listen(PORT, () => {
     console.log(`Application started listening on port: ${PORT}`);
 
-    syncChains();
+    if ( PORT !== DEFAULT_PORT ) {
+        syncChains();
+    }
 });
