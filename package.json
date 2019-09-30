@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "braces": ">=2.3.1",
+    "express": "^4.16.3",
     "hex-to-binary": "^1.0.1",
+    "iconv-lite": "^0.5.0",
     "mem": ">=4.0.0"
   }
 }
