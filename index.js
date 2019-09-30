@@ -1,17 +1,20 @@
 const express = require('express');
+const request = require('request');
 const bodyParser = require('body-parser');
-
 const {DEFAULT_PORT} = require('./config');
 const Blockchain = require('./blockchain');
 const PubSub = require('./pubsub');
 
-const app = express();
-const blockchain = new Blockchain();
-const pubsub = new PubSub({blockchain: blockchain});
 
+const app = express();
 app.use(bodyParser.json());
 
-// --------------------- END POINTS -----------------------
+const blockchain = new Blockchain();
+const pubsub = new PubSub({blockchain: blockchain});
+const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
+
+
+// --------------------- ENDPOINTS -----------------------
 
 app.get('/api/blocks', ( req, res ) => {
     res.json(blockchain.chain);
@@ -26,7 +29,21 @@ app.post('/api/mine', ( req, res ) => {
     res.redirect('/api/blocks');
 });
 
-// --------------------------------------------------------
+// -------------------------------------------------------
+
+const syncChains = () => {
+    request({url: `${ROOT_NODE_ADDRESS}/api/blocks`}, ( error, response, body ) => {
+        if ( !error && response.statusCode === 200 ) {
+            const rootChain = JSON.parse(body);
+
+            console.info('replace chain on sync with root', rootChain);
+
+            blockchain.replaceChain(rootChain);
+        } else {
+            console.error(response.statusCode);
+        }
+    });
+};
 
 let PEER_PORT;
 if ( process.env.GENERATE_PEER_PORT === 'true' ) {
@@ -36,4 +53,6 @@ const PORT = PEER_PORT || DEFAULT_PORT;
 
 app.listen(PORT, () => {
     console.log(`Application started listening on port: ${PORT}`);
+
+    syncChains();
 });

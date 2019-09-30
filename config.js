@@ -1,9 +1,9 @@
 
 // new blocks to be mined at a rate of 1 second
-const MINE_RATE = 500;
+const MINE_RATE = 1000;
 
 // this initial difficulty will be dynamically overridden to keep to the mine rate
-const INITIAL_DIFFICULTY = 3;
+const INITIAL_DIFFICULTY = 5;
 
 // initial block on the chain
 const GENESIS_DATA = {
